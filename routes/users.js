@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt  = require('jsonwebtoken');
+const config = require('config');
 
 const User = require('../models/User');
 
@@ -45,7 +47,22 @@ router.post('/', [
 
         await user.save();
 
-        res.send('user saved');
+        //payload is the object we will send in the token
+        const payload = {
+            user: {
+                id: user.id
+            }
+        }
+
+        jwt.sign(payload, config.get('jwtSecret'), {
+            expiresIn: 360000
+        }, (error, token) => {
+            if (error){
+                throw error;
+            } else {
+                res.json({ token });
+            }
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500).send('server error');
