@@ -6,6 +6,9 @@ const app = express();
 //connect databse
 connectDB();
 
+//init middleware
+app.use(express.json({ extended: false }));
+
 app.get('/', (req, res) => res.json({msg: "Contact Keeper API"}));
 
 //define routes
