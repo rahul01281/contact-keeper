@@ -53,15 +53,72 @@ router.post('/', [ auth, [
 // @route      GET api/contacts/:id
 // @desc       update contact
 // @access     private
-router.put('/:id', (req, res) => {
-    res.send('update contact');
+router.put('/:id', auth, async (req, res) => {
+    
+    const { name, email, phone, type } = req.body;
+
+    //build contact object
+    const contactFields = {};
+    if(name){
+        contactFields.name = name;
+    }
+    if(email){
+        contactFields.email = email;
+    }
+    if(phone){
+        contactFields.phone = phone;
+    }
+    if(type){
+        contactFields.type = type;
+    }
+
+    try {
+        let contact = await Contact.findById(req.params.id);
+
+        if(!contact){
+            return res.status(404).json({msg:"Contact not Found"})
+        }
+
+        //make sure user owns the contact
+        if(contact.user.toString() !== req.user.id){
+            return res.status(401).json({msg:"Not Authorised"});
+        }
+
+        contact = await Contact.findByIdAndUpdate(req.params.id,
+            { $set: contactFields },
+            { new: true });
+
+            res.json(contact);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('server error')
+    }
 });
 
 // @route      GET api/contacts
 // @desc       delete contact
 // @access     private
-router.get('/:id', (req, res) => {
-    res.send('delete contact');
+router.get('/:id', auth, async (req, res) => {
+    try {
+        let contact = await Contact.findById(req.params.id);
+
+        if(!contact){
+            return res.status(404).json({msg:"Contact not Found"})
+        }
+
+        //make sure user owns the contact
+        if(contact.user.toString() !== req.user.id){
+            return res.status(401).json({msg:"Not Authorised"});
+        }
+
+        await Contact.findByIdAndRemove(req.params.id);
+
+        res.json({msg:"Contact Removed"})
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('server error')
+    }
 });
 
 module.exports = router;
