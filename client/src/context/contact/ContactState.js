@@ -39,7 +39,8 @@ const ContactState = props => {
             }
         ],
 
-        current: null
+        current: null,
+        filtered: null
     };
 
     //state allows us to access anything in our state and dispatch allows us to dispatch objects to the reducer
@@ -74,19 +75,27 @@ const ContactState = props => {
     }
 
     //filter contacts
+    const filterContact = (text) => {
+        dispatch({ type: FILTER_CONTACTS, payload: text })
+    }
 
     //clear filters
-
+    const clearFilter = () => {
+        dispatch({ type: CLEAR_FILTER })
+    }
     return (
         <ContactContext.Provider
         value={{
             contacts: state.contacts,
             current: state.current,
+            filtered: state.filtered,
             addContact,
             deleteContact,
             setCurrent,
             clearCurrent,
-            updateContact
+            updateContact,
+            filterContact,
+            clearFilter
         }}>
             { props.children }
         </ContactContext.Provider>
