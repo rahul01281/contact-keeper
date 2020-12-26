@@ -1,9 +1,19 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Contacts from '../contacts/Contacts';
 import ContactForm from '../contacts/ContactForm';
 import ContactFilter from '../contacts/ContactFilter';
+import AuthContext from '../../context/auth/authContext';
 
 function Home() {
+
+    const authContext = useContext(AuthContext);
+
+    useEffect(() => {
+        authContext.loadUser();//that will look at the token, hit the backend and validate it and put the user into state
+
+        //eslint-disable-next-line
+    }, [])
+
     return (
         <div className="grid-2">
             <div>
