@@ -13,7 +13,7 @@ import {
   CLEAR_FILTER,
 } from '../types';
 
-const contactState = props => {
+const ContactState = props => {
     const initialState = {
         contacts: [
             {
@@ -40,6 +40,7 @@ const contactState = props => {
         ]
     };
 
+    //state allows us to access anything in our state and dispatch allows us to dispatch objects to the reducer
     const [state, dispatch] = useReducer(contactReducer, initialState);
 
     //all the actions
@@ -60,7 +61,7 @@ const contactState = props => {
 
     return (
         <ContactContext.Provider
-        values={{
+        value={{
             contacts: state.contacts
         }}>
             { props.children }
