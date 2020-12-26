@@ -37,7 +37,9 @@ const ContactState = props => {
                 phone:"333-333-3333",
                 type:"professional"
             }
-        ]
+        ],
+
+        current: null
     };
 
     //state allows us to access anything in our state and dispatch allows us to dispatch objects to the reducer
@@ -57,8 +59,14 @@ const ContactState = props => {
     }
 
     //set current contact
+    const setCurrent = (id) => {
+        dispatch({ type: SET_CURRENT, payload:id })
+    }
 
     //clear current contact
+    const clearCurrent = () => {
+        dispatch({ type: CLEAR_CURRENT }) //don't need a payload because we are setting it back to null
+    }
 
     //update contact
 
@@ -70,8 +78,11 @@ const ContactState = props => {
         <ContactContext.Provider
         value={{
             contacts: state.contacts,
+            current: state.current,
             addContact,
-            deleteContact
+            deleteContact,
+            setCurrent,
+            clearCurrent
         }}>
             { props.children }
         </ContactContext.Provider>

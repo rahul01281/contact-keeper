@@ -24,5 +24,17 @@ export default (state, action) => {
                 ...state,
                 contacts: state.contacts.filter(contact => contact.id !== action.payload)//return all contacts that are not the cuurrent id that's in the payload
             }
+
+        case SET_CURRENT:
+            return{
+                ...state,
+                current: action.payload
+            }
+
+        case CLEAR_CURRENT:
+            return{
+                ...state,
+                current: null
+            }
     }
 }
