@@ -1,9 +1,15 @@
 import React from 'react';
+import Contacts from '../contacts/Contacts';
 
 function Home() {
     return (
-        <div>
-            
+        <div className="grid-2">
+            <div>
+                {/* contact from */}
+            </div>
+            <div>
+                <Contacts />
+            </div>
         </div>
     )
 }
