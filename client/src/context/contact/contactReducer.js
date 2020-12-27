@@ -7,6 +7,8 @@ import {
   FILTER_CONTACTS,
   CLEAR_FILTER,
   CONTACT_ERROR,
+  GET_CONTACTS,
+  CLEAR_CONTACTS
 } from '../types';
 
 export default (state, action) => {
@@ -14,16 +16,26 @@ export default (state, action) => {
         default:
             return state
 
+        case GET_CONTACTS:
+            return{
+                ...state,
+                contacts: action.payload,
+                loading: false
+            }
+
         case ADD_CONTACT:
             return{
                 ...state,
-                contacts: [...state.contacts, action.payload]
+                contacts: [...state.contacts, action.payload],
+                loading: false
             }
 
         case DELETE_CONTACT:
             return{
                 ...state,
                 contacts: state.contacts.filter(contact => contact.id !== action.payload)//return all contacts that are not the cuurrent id that's in the payload
+                ,
+                loading: false
             }
 
         case SET_CURRENT:
@@ -42,6 +54,8 @@ export default (state, action) => {
             return{
                 ...state,
                 contacts: state.contacts.map(contact => contact.id === action.payload.id ? action.payload : contact) //action.payload is the entire contact
+                ,
+                loading: false
             }
 
         case FILTER_CONTACTS:
@@ -63,6 +77,15 @@ export default (state, action) => {
             return{
                 ...state,
                 error: action.payload
+            }
+
+        case CLEAR_CONTACTS:
+            return{
+                ...state,
+                contacts: [],
+                filtered: null,
+                error: null,
+                current: null
             }
     }
 }

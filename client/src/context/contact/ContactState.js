@@ -11,7 +11,9 @@ import {
   UPDATE_CONTACT,
   FILTER_CONTACTS,
   CLEAR_FILTER,
-  CONTACT_ERROR
+  CONTACT_ERROR,
+  GET_CONTACTS,
+  CLEAR_CONTACTS //as soon we logout, the contacts in the state are removed instead of being held there until we log back in
 } from '../types';
 
 const ContactState = props => {
@@ -26,6 +28,18 @@ const ContactState = props => {
     const [state, dispatch] = useReducer(contactReducer, initialState);
 
     //all the actions
+
+    //get contacts
+    const getContacts = async () => {
+
+        try {
+            const res = await axios.get('/api/contacts');
+
+            dispatch({ type: GET_CONTACTS, payload: res.data });
+        } catch (error) {
+            dispatch({ type: CONTACT_ERROR, payload: error.response.msg });
+        }
+    }
 
     //add contact
     const addContact = async (contact) => {
@@ -73,6 +87,12 @@ const ContactState = props => {
     const clearFilter = () => {
         dispatch({ type: CLEAR_FILTER })
     }
+
+    //clear contacts
+    const clearContacts = () => {
+        dispatch({ type: CLEAR_CONTACTS })
+    }
+
     return (
         <ContactContext.Provider
         value={{
@@ -86,7 +106,9 @@ const ContactState = props => {
             clearCurrent,
             updateContact,
             filterContact,
-            clearFilter
+            clearFilter,
+            getContacts,
+            clearContacts
         }}>
             { props.children }
         </ContactContext.Provider>
