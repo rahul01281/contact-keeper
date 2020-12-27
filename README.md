@@ -1,14 +1,10 @@
 # ContactKeeper
 
 This is a MERN Stack Contacts Manager App.
-
 The user can register/login to an account which will show information about the contacts they have saved.
-
 Each user is unique and has their own set of contacts, they can also filter/search their contacts to view specific people.
-
 The app implements ReactJS Context API, while using MongoDB and ExpressJS for the backend.
-
-It is built following Traversy Media Course on Udemy called: "React Front to Back 2019".
+It is built following Traversy Media Course on Udemy called: "React Front to Back".
 ## Usage
 
 Install dependencies
