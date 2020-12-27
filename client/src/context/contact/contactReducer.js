@@ -26,14 +26,14 @@ export default (state, action) => {
         case ADD_CONTACT:
             return{
                 ...state,
-                contacts: [...state.contacts, action.payload],
+                contacts: [action.payload, ...state.contacts],
                 loading: false
             }
 
         case DELETE_CONTACT:
             return{
                 ...state,
-                contacts: state.contacts.filter(contact => contact.id !== action.payload)//return all contacts that are not the cuurrent id that's in the payload
+                contacts: state.contacts.filter(contact => contact._id !== action.payload)//return all contacts that are not the cuurrent id that's in the payload
                 ,
                 loading: false
             }
